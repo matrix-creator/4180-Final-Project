@@ -220,6 +220,7 @@ void autonomousMode() {
         // Reverse slightly when less than 150 mm from an object
         left_motor.speed(-straightSpeed);
         right_motor.speed(-straightSpeed);
+        reverseBeepAlert();    // sound effect
         wait(1.0);  //Time for reverse action
         }
        
@@ -234,6 +235,17 @@ void entertainmentMode() {
         uLCD.text_string("Entertainment Mode", 1, 1, FONT_7X8, RED);
         lcd_mutex.unlock();
         // Your additional Entertainment mode logic goes here
+    }
+}
+
+// for sound effect when the robot move reverse
+void reverseBeepAlert() {
+    // play reverse beep sound
+    for (int i = 0; i < 3; ++i) {
+        buzzer = 1;
+        ThisThread::sleep_for(100ms);
+        buzzer = 0;
+        ThisThread::sleep_for(100ms);
     }
 }
 
