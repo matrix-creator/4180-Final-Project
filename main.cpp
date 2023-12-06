@@ -34,7 +34,8 @@ float turnSpeed = 0.5;
 Motor left_motor(p21,p5,p6); //pwm,fwd,rev
 Motor right_motor(p22,p7,p8); //pwm,fwd,rev
 
-
+// Beep sound
+DigitalOut buzzer(p12);
 
 
 //SDFileSystem sd(p5, p6, p7, p8, "sd"); //SD card
