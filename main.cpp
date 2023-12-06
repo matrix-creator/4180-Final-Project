@@ -1,9 +1,5 @@
-/* 4180 Final Project
- * Yash, Hyochang, Jack, Kameron
- * The RRR (The Rick Rolling Roomba)
- */
-
 #include "mbed.h"
+//#include "Lab2Part16/X_NUCLEO_53L0A1/XNucleo53L0A1.h"
 #include "rtos.h"
 #include "uLCD_4DGL.h"
 #include "SDFileSystem.h"
@@ -11,7 +7,7 @@
 #include <string>
 #include "mbed.h"
 #include "Motor.h"
-#include "Servo.h"
+//#include "Servo.h"
 #include "XNucleo53L0A1.h"
 
 //LCD
@@ -34,8 +30,7 @@ float turnSpeed = 0.5;
 Motor left_motor(p21,p5,p6); //pwm,fwd,rev
 Motor right_motor(p22,p7,p8); //pwm,fwd,rev
 
-// Beep sound
-DigitalOut buzzer(p12);
+
 
 
 //SDFileSystem sd(p5, p6, p7, p8, "sd"); //SD card
@@ -167,7 +162,7 @@ void autonomousDistanceThread(const void *args){
         /* init the 53L0A1 board with default values */
         status = board->init_board();
         while (status) {
-            pc.printf("Failed to init board! \r\n");
+            //pc.printf("Failed to init board! \r\n");
             status = board->init_board();
         }
         //loop taking and printing distance
@@ -221,7 +216,6 @@ void autonomousMode() {
         // Reverse slightly when less than 150 mm from an object
         left_motor.speed(-straightSpeed);
         right_motor.speed(-straightSpeed);
-        reverseBeepAlert();    // sound effect
         wait(1.0);  //Time for reverse action
         }
        
@@ -239,17 +233,6 @@ void entertainmentMode() {
     }
 }
 
-// for sound effect when the robot move reverse
-void reverseBeepAlert() {
-    // play reverse beep sound
-    for (int i = 0; i < 3; ++i) {
-        buzzer = 1;
-        ThisThread::sleep_for(100ms);
-        buzzer = 0;
-        ThisThread::sleep_for(100ms);
-    }
-}
-
 int main()
 {
 
@@ -257,7 +240,6 @@ int main()
     Thread th2(autonomousDistanceThread);
 
     while (true) {
-        mode_mutex.lock();    // since it could read currentmode while the bluetooth change the currentMode variable
         switch (currentMode) {
             case SPOT:
                 spotMode();
@@ -271,7 +253,6 @@ int main()
             case ENTERTAINMENT:
                 entertainmentMode();
                 break;
-        mode_mutext.unlock(); // HC make sure unlcok to avoid deadlock
         }
     }
 }
