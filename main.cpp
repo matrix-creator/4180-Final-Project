@@ -244,6 +244,7 @@ int main()
     Thread th2(autonomousDistanceThread);
 
     while (true) {
+        mode_mutex.lock();    // since it could read currentmode while the bluetooth change the currentMode variable
         switch (currentMode) {
             case SPOT:
                 spotMode();
@@ -257,6 +258,7 @@ int main()
             case ENTERTAINMENT:
                 entertainmentMode();
                 break;
+        mode_mutext.unlock(); // HC make sure unlcok to avoid deadlock
         }
     }
 }
